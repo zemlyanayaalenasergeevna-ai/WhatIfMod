@@ -1,0 +1,14 @@
+{
+  "geode": "5.10.1",
+  "gd": {
+    "android": "2.2081",
+    "win": "2.2081",
+    "mac": "2.2081",
+    "ios": "2.2081"
+  },
+  "id": "alena.freeautobuild",
+  "name": "Free AutoBuild",
+  "version": "v0.1.0",
+  "developer": "Alena",
+  "description": "A free, activation-code-free editor decoration helper with templates and an idea prompt."
+}
