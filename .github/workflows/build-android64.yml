@@ -3,6 +3,8 @@ name: Build What If? Mode - Android64
 on:
   workflow_dispatch:
   push:
+    branches:
+      - "main"
     tags:
       - "v*"
 
@@ -20,7 +22,6 @@ jobs:
           build-config: Release
 
       - name: Locate .geode
-        id: locate
         shell: bash
         run: |
           set -e
@@ -32,7 +33,6 @@ jobs:
           fi
           mkdir -p artifacts
           cp "$FILE" artifacts/alena.whatifmode.geode
-          echo "geode=artifacts/alena.whatifmode.geode" >> "$GITHUB_OUTPUT"
 
       - name: Upload installable .geode
         uses: actions/upload-artifact@v4
