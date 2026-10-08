@@ -1,0 +1,9 @@
+{
+  "geode": ">=5.0.0",
+  "gd": {"win":"2.2081","android":"2.2081","mac":"2.2081","ios":"2.2081"},
+  "id": "alena.whatifmode",
+  "name": "What If? Mode",
+  "version": "v1.0.0",
+  "developer": "Alena",
+  "description": "Turns the More Games button into a random What If? generator."
+}
