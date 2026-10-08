@@ -1,0 +1,42 @@
+name: Build Free AutoBuild - Android64
+
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - "FreeAutoBuild/**"
+      - ".github/workflows/build-free-autobuild.yml"
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Build Free AutoBuild
+        uses: geode-sdk/build-geode-mod@main
+        with:
+          target: Android64
+          build-config: Release
+          path: ./FreeAutoBuild
+
+      - name: Locate .geode
+        shell: bash
+        run: |
+          set -e
+          FILE=$(find FreeAutoBuild/build FreeAutoBuild/out -type f -name '*.geode' 2>/dev/null | head -n 1 || true)
+          if [ -z "$FILE" ]; then
+            echo "No .geode file found."
+            find FreeAutoBuild -type f | sort | tail -n 200
+            exit 1
+          fi
+          mkdir -p artifacts
+          cp "$FILE" artifacts/alena.freeautobuild.geode
+
+      - name: Upload installable .geode
+        uses: actions/upload-artifact@v4
+        with:
+          name: alena.freeautobuild-android64
+          path: artifacts/alena.freeautobuild.geode
+          if-no-files-found: error
