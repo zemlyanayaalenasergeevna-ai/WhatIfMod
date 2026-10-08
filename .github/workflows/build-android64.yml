@@ -1,0 +1,42 @@
+name: Build What If? Mode - Android64
+
+on:
+  workflow_dispatch:
+  push:
+    tags:
+      - "v*"
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Build Geode mod
+        uses: geode-sdk/build-geode-mod@main
+        with:
+          target: Android64
+          build-config: Release
+
+      - name: Locate .geode
+        id: locate
+        shell: bash
+        run: |
+          set -e
+          FILE=$(find build out -type f -name '*.geode' 2>/dev/null | head -n 1 || true)
+          if [ -z "$FILE" ]; then
+            echo "No .geode file found."
+            find . -type f | sort | tail -n 200
+            exit 1
+          fi
+          mkdir -p artifacts
+          cp "$FILE" artifacts/alena.whatifmode.geode
+          echo "geode=artifacts/alena.whatifmode.geode" >> "$GITHUB_OUTPUT"
+
+      - name: Upload installable .geode
+        uses: actions/upload-artifact@v4
+        with:
+          name: alena.whatifmode-android64
+          path: artifacts/alena.whatifmode.geode
+          if-no-files-found: error
